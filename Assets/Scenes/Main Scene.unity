@@ -259,6 +259,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mainManager: {fileID: 0}
   buttonNumber: 1
+  buttonIsClicked: 0
 --- !u!1 &434157974
 GameObject:
   m_ObjectHideFlags: 0
@@ -529,6 +530,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mainManager: {fileID: 0}
   buttonNumber: 2
+  buttonIsClicked: 0
 --- !u!1 &640583562
 GameObject:
   m_ObjectHideFlags: 0
@@ -835,6 +837,7 @@ GameObject:
   m_Component:
   - component: {fileID: 754295742}
   - component: {fileID: 754295741}
+  - component: {fileID: 754295743}
   m_Layer: 0
   m_Name: Main Manager
   m_TagString: Untagged
@@ -858,6 +861,9 @@ MonoBehaviour:
   - {fileID: 8556184982058902428, guid: 2a70be657a9068940b8a6da7c7dfc194, type: 3}
   - {fileID: 7529531649889306220, guid: 2e0f4a586f11b234bbe3a007da2224d2, type: 3}
   - {fileID: 1901319147069829227, guid: e375b9d2a1ecba5448b0a85a28ef7949, type: 3}
+  prefabIndex: 0
+  buttonWasClicked: 0
+  mousePositionScript: {fileID: 0}
 --- !u!4 &754295742
 Transform:
   m_ObjectHideFlags: 0
@@ -873,6 +879,20 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &754295743
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 754295740}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4445949eb316942428f473a8ad95ad02, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mainCamera: {fileID: 963194227}
+  mousePoition: {x: 0, y: 0, z: 0}
 --- !u!1 &963194225
 GameObject:
   m_ObjectHideFlags: 0
@@ -958,13 +978,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.130007, y: 0, z: 0, w: 0.99151313}
-  m_LocalPosition: {x: 1118, y: 5.2, z: -37.8}
+  m_LocalRotation: {x: 0, y: 0.97976786, z: -0.20013751, w: 0}
+  m_LocalPosition: {x: 1118, y: 13.4, z: 30.44}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: -14.94, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 23.09, y: 180, z: 0}
 --- !u!1 &968018637
 GameObject:
   m_ObjectHideFlags: 0
@@ -1527,6 +1547,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mainManager: {fileID: 0}
   buttonNumber: 0
+  buttonIsClicked: 0
 --- !u!1 &1475620316
 GameObject:
   m_ObjectHideFlags: 0

@@ -9,6 +9,7 @@ public class Buttons : MonoBehaviour
     private Button button;
     public MainManager mainManager;
     public int buttonNumber;
+    public bool buttonIsClicked = false;
 
     // Start is called before the first frame update
     void Start()
@@ -21,11 +22,14 @@ public class Buttons : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-       
+      
     }
+
 
     public void LoadObject()
     {
-        mainManager.CreateObject(buttonNumber);
+        buttonIsClicked = true;
+        mainManager.ObjectWasChoosen(buttonIsClicked);
+        mainManager.ButtonNumber(buttonNumber);
     }
 }
