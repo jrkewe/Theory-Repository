@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Sprites;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class MainManager : MonoBehaviour
@@ -16,7 +18,7 @@ public class MainManager : MonoBehaviour
 
 
 
-    private void Start()
+    public void Start()
     {
         mousePositionScript = GetComponent<MousePosition>();
     }
@@ -26,32 +28,7 @@ public class MainManager : MonoBehaviour
 
     private void Update()
     {
-       //Debug.Log("prefabIndex: " + prefabIndex);
-        //Debug.Log("key: " + key);
-        if (Input.GetMouseButtonDown(0) && buttonWasClicked)
-        {
-            
-            //first button click
-            if (key == -1)
-            {
-                Debug.Log("if1");
-                key = prefabIndex;
-                Instantiate(objectsPrefabs[prefabIndex], mousePositionScript.mousePoition, transform.rotation);
-                return;
-            }
-            //if we click on button
-            else if (key != prefabIndex)
-            {
-                Debug.Log("if2");
-                key = prefabIndex;
-                return;
-            }
-            else if (key == prefabIndex)
-            {
-                Debug.Log("if3");
-                Instantiate(objectsPrefabs[prefabIndex], mousePositionScript.mousePoition, transform.rotation);
-            }
-        }
+        InstantiateObjects();
     }
 
 
@@ -66,4 +43,21 @@ public class MainManager : MonoBehaviour
     { 
         prefabIndex = buttonNumber;
     }
+
+    public void InstantiateObjects() 
+    {
+        if (Input.GetMouseButtonDown(0) && buttonWasClicked)
+        {
+            if (EventSystem.current.IsPointerOverGameObject())
+            {
+                return;
+            }
+            else
+            {
+                Instantiate(objectsPrefabs[prefabIndex], mousePositionScript.mousePoition, transform.rotation);
+            }
+
+        }
+    }
+
 }
