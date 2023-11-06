@@ -8,7 +8,10 @@ public class Buttons : MonoBehaviour
 {
     private Button button;
     public MainManager mainManager;
+
+    //tells me with type of object it is
     public int buttonNumber;
+    
     public bool buttonIsClicked = false;
 
     // Start is called before the first frame update
@@ -19,11 +22,6 @@ public class Buttons : MonoBehaviour
         button.onClick.AddListener(LoadObject);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-      
-    }
 
 
     public void LoadObject()

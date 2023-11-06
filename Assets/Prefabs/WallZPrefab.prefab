@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 8697358015673274906}
   m_Layer: 0
   m_Name: WallZPrefab
-  m_TagString: Untagged
+  m_TagString: WallZ
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

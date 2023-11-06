@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class CreateWallZ : Prefabricate
 {
-
     private void Start()
     {
         SetDimensions();
@@ -20,5 +19,10 @@ public class CreateWallZ : Prefabricate
     public override void SetPosition()
     {
         gameObject.transform.position = new Vector3(transform.position.x, y/2, transform.position.z);
+    }
+
+    public override void SetObjectID()
+    {
+        objectId = 1;
     }
 }

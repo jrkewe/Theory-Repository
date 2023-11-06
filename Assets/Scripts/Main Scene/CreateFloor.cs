@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CreateFloor : Prefabricate
 {
-
+    
     private void Start()
     {
         SetDimensions();
@@ -20,5 +20,10 @@ public class CreateFloor : Prefabricate
     public override void SetPosition()
     {
         gameObject.transform.position = new Vector3(transform.position.x, 0.15f, transform.position.z);
+    }
+
+    public override void SetObjectID()
+    {
+        objectId = 2;
     }
 }
