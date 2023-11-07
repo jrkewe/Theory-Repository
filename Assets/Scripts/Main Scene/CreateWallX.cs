@@ -10,6 +10,8 @@ public class CreateWallX : Prefabricate
     {
         SetDimensions();
         SetPosition();
+        SetObjectID();
+        Debug.Log(objectId, gameObject);
     }
 
     public override void SetDimensions()

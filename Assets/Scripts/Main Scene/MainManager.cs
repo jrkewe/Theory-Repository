@@ -17,15 +17,20 @@ public class MainManager : MonoBehaviour
     //Mouse position
     public MousePosition mousePositionScript;
 
+
     public void Start()
     {
         mousePositionScript = GetComponent<MousePosition>();
+        Debug.Log(Debug.isDebugBuild);
     }
+
 
     private void Update()
     {
+
         if (Input.GetMouseButtonDown(0)) 
         {
+           
             StopAllCoroutines();
 
             //if its object - DetectObject
@@ -81,6 +86,6 @@ public class MainManager : MonoBehaviour
         Destroy(mousePositionScript.GetObject());
     }
 
- 
+   
 
 }

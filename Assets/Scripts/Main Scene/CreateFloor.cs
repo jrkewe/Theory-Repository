@@ -9,6 +9,8 @@ public class CreateFloor : Prefabricate
     {
         SetDimensions();
         SetPosition();
+        SetObjectID();
+        Debug.Log(objectId ,gameObject);
     }
 
     public override void SetDimensions()

@@ -8,6 +8,8 @@ public class CreateWallZ : Prefabricate
     {
         SetDimensions();
         SetPosition();
+        SetObjectID();
+        Debug.Log(objectId, gameObject);
     }
 
     public override void SetDimensions()

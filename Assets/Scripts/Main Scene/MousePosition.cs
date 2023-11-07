@@ -38,13 +38,13 @@ public class MousePosition : MonoBehaviour
                 else if (raycastHit.collider.gameObject.tag == "WallZ")
                 {
                 selectedObject = raycastHit.collider.gameObject;
-                Debug.Log("Wall Z");
+                //Debug.Log("Wall Z");
                     return true;
                 }
                 else if (raycastHit.collider.gameObject.tag == "Floor")
                 {
                 selectedObject = raycastHit.collider.gameObject;
-                Debug.Log("Floor");
+                //Debug.Log("Floor");
                     return true;
                 }
                 else
@@ -53,14 +53,14 @@ public class MousePosition : MonoBehaviour
                 }
             }
             else 
-            {
+            {//
                 return false;
             }
     }
 
     public GameObject GetObject() 
     {
-        Debug.Log(selectedObject.gameObject.name+ "Selected Object name");
+        //Debug.Log(selectedObject.gameObject.name+ "Selected Object name");
         return selectedObject;
     }
 
