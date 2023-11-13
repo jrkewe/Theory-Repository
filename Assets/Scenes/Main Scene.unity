@@ -1684,6 +1684,7 @@ GameObject:
   - component: {fileID: 754295742}
   - component: {fileID: 754295741}
   - component: {fileID: 754295743}
+  - component: {fileID: 754295744}
   m_Layer: 0
   m_Name: Main Manager
   m_TagString: Untagged
@@ -1710,6 +1711,10 @@ MonoBehaviour:
   buttonWasClicked: 0
   prefabIndex: 0
   mousePositionScript: {fileID: 0}
+  x: 1
+  y: 1
+  z: 1
+  wallX: {fileID: 2361660204499382582, guid: 2a70be657a9068940b8a6da7c7dfc194, type: 3}
 --- !u!4 &754295742
 Transform:
   m_ObjectHideFlags: 0
@@ -1740,9 +1745,23 @@ MonoBehaviour:
   mainCamera: {fileID: 963194227}
   mousePoition: {x: 0, y: 0, z: 0}
   selectedObject: {fileID: 0}
-  objectIsChoosen: 0
-  otherObjectIsChoosen: 0
-  setBooleanState: 1
+  objectID: 0
+--- !u!114 &754295744
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 754295740}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3323b39c297ce1d479d8cf2e9658dc5c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  x: 1
+  y: 1
+  z: 1
+  objectId: 0
 --- !u!1 &777703016
 GameObject:
   m_ObjectHideFlags: 0
@@ -2327,7 +2346,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1222709647
 MonoBehaviour:
   m_ObjectHideFlags: 0

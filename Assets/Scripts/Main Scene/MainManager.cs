@@ -7,6 +7,7 @@ using UnityEngine.UI;
 
 public class MainManager : MonoBehaviour
 {
+    
     //Prefabs objects
     public GameObject[] objectsPrefabs;
 
@@ -17,27 +18,28 @@ public class MainManager : MonoBehaviour
     //Mouse position
     public MousePosition mousePositionScript;
 
+    public float X ;
+    public float Y ;
+    public float Z ;
+
 
     public void Start()
     {
         mousePositionScript = GetComponent<MousePosition>();
-        Debug.Log(Debug.isDebugBuild);
     }
 
 
     private void Update()
     {
-
         if (Input.GetMouseButtonDown(0)) 
-        {
-           
+        { 
             StopAllCoroutines();
 
             //if its object - DetectObject
             if (mousePositionScript.DetectObject())
             {
-                mousePositionScript.GetObject();
-                StartCoroutine(WaitForMouseClick());
+                StartCoroutine(WaitForResize());
+                StartCoroutine(WaitForDelete());
             }
             
             //if its terrain - InstantiateObject
@@ -77,7 +79,7 @@ public class MainManager : MonoBehaviour
     }
 
     //Wait till Delete is pressed
-    IEnumerator WaitForMouseClick()
+    IEnumerator WaitForDelete()
     {
         while (!Input.GetKeyDown(KeyCode.Delete))
         { 
@@ -86,6 +88,34 @@ public class MainManager : MonoBehaviour
         Destroy(mousePositionScript.GetObject());
     }
 
-   
+    //Wait till change size 
+    IEnumerator WaitForResize()
+    {
+        //input
+        X = 5.0f;
+        Y = 5.0f;
+        Z = 5.0f;
+
+        while (!Input.GetKeyDown(KeyCode.D))
+        {
+            yield return null;
+        }
+
+        if (mousePositionScript.GetID() == 0)
+        {
+            mousePositionScript.GetObject().transform.localScale = new Vector3(0.25f,Y, Z);
+            mousePositionScript.GetObject().transform.position = new Vector3(mousePositionScript.GetObject().transform.position.x, Y/ 2, mousePositionScript.GetObject().transform.position.z);
+        }
+        else if (mousePositionScript.GetID() == 1)
+        {
+            mousePositionScript.GetObject().transform.localScale = new Vector3(X, Y, 0.25f);
+            mousePositionScript.GetObject().transform.position = new Vector3(mousePositionScript.GetObject().transform.position.x, Y / 2, mousePositionScript.GetObject().transform.position.z);
+        }
+        else if (mousePositionScript.GetID() == 2)
+        {
+            mousePositionScript.GetObject().transform.localScale = new Vector3(X, 0.16f, Z);
+            mousePositionScript.GetObject().transform.position = new Vector3(mousePositionScript.GetObject().transform.position.x, 0.08f, mousePositionScript.GetObject().transform.position.z);
+        }
+    }
 
 }

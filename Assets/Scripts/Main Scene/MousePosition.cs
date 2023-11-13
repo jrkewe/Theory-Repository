@@ -11,11 +11,7 @@ public class MousePosition : MonoBehaviour
 
     //selected object
     public GameObject selectedObject;
-
-    //one mouse click happend
-    public bool objectIsChoosen;
-    public bool otherObjectIsChoosen;
-    public bool setBooleanState = true;
+    public int objectID;
 
     private void Update()
     {
@@ -32,20 +28,23 @@ public class MousePosition : MonoBehaviour
                 if (raycastHit.collider.gameObject.tag == "WallX")
                 {
                 selectedObject = raycastHit.collider.gameObject;
+                objectID = 0;
                 Debug.Log("Wall X");
                 return true;
                 }
                 else if (raycastHit.collider.gameObject.tag == "WallZ")
                 {
                 selectedObject = raycastHit.collider.gameObject;
-                //Debug.Log("Wall Z");
+                objectID = 1;
+                Debug.Log("Wall Z");
                     return true;
                 }
                 else if (raycastHit.collider.gameObject.tag == "Floor")
                 {
                 selectedObject = raycastHit.collider.gameObject;
-                //Debug.Log("Floor");
-                    return true;
+                objectID = 2;
+                Debug.Log("Floor");
+                return true;
                 }
                 else
                 {
@@ -53,15 +52,19 @@ public class MousePosition : MonoBehaviour
                 }
             }
             else 
-            {//
+            {
                 return false;
             }
     }
 
     public GameObject GetObject() 
     {
-        //Debug.Log(selectedObject.gameObject.name+ "Selected Object name");
         return selectedObject;
+    }
+
+    public int GetID()
+    {
+        return objectID;
     }
 
     public void GetMousePosition() 

@@ -4,17 +4,16 @@ using UnityEngine;
 
 public class CreateWallZ : Prefabricate
 {
+
     private void Start()
     {
+        objectId = 1;
         SetDimensions();
         SetPosition();
-        SetObjectID();
-        Debug.Log(objectId, gameObject);
     }
 
     public override void SetDimensions()
     {
-        // base.SetDimensions();
         gameObject.transform.localScale = new Vector3(x, y, 0.25f);
     }
 
@@ -23,8 +22,4 @@ public class CreateWallZ : Prefabricate
         gameObject.transform.position = new Vector3(transform.position.x, y/2, transform.position.z);
     }
 
-    public override void SetObjectID()
-    {
-        objectId = 1;
-    }
 }

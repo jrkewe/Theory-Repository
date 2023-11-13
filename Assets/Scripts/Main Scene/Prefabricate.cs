@@ -5,13 +5,13 @@ using UnityEngine;
 
 public class Prefabricate : MonoBehaviour
 {
-    public float x=1.0f;
-    public float y=1.0f;
-    public float z=1.0f;
+    protected float x = 1.0f;
+    protected float y = 1.0f;
+    protected float z = 1.0f;
 
-    public int objectId;
+    protected int objectId;
 
-    public virtual void SetDimensions() 
+    public virtual void SetDimensions()
     {
         gameObject.transform.localScale = new Vector3(x, y, z);
     }
@@ -21,10 +21,6 @@ public class Prefabricate : MonoBehaviour
         gameObject.transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z);
     }
 
-    public virtual void SetObjectID()
-    {
-        objectId = 0;
-    }
 
 }
 
