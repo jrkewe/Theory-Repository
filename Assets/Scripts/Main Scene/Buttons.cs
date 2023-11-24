@@ -6,19 +6,20 @@ using UnityEngine.UI;
 
 public class Buttons : MonoBehaviour
 {
+    //Buttons
     private Button button;
-    public MainManager mainManager;
+    private UserInputManager userInputManager;
 
     //tells me with type of object it is
     public int buttonNumber;
     
-    public bool buttonIsClicked = false;
+    private bool buttonIsClicked = false;
 
     // Start is called before the first frame update
     void Start()
     {
         button = GetComponent<Button>();
-        mainManager = GameObject.Find("Main Manager").GetComponent<MainManager>();
+        userInputManager = GameObject.Find("User Input Manager").GetComponent<UserInputManager>();
         button.onClick.AddListener(LoadObject);
     }
 
@@ -27,7 +28,7 @@ public class Buttons : MonoBehaviour
     public void LoadObject()
     {
         buttonIsClicked = true;
-        mainManager.ObjectWasChoosen(buttonIsClicked);
-        mainManager.ButtonNumber(buttonNumber);
+        userInputManager.ObjectWasChoosen(buttonIsClicked);
+        userInputManager.ButtonNumber(buttonNumber);
     }
 }

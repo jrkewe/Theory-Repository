@@ -30,6 +30,7 @@ public class MousePosition : MonoBehaviour
                 selectedObject = raycastHit.collider.gameObject;
                 objectID = 0;
                 Debug.Log("Wall X");
+                Debug.Log(selectedObject.transform.localScale);
                 return true;
                 }
                 else if (raycastHit.collider.gameObject.tag == "WallZ")
@@ -37,13 +38,15 @@ public class MousePosition : MonoBehaviour
                 selectedObject = raycastHit.collider.gameObject;
                 objectID = 1;
                 Debug.Log("Wall Z");
-                    return true;
+                Debug.Log(selectedObject.transform.localScale);
+                return true;
                 }
                 else if (raycastHit.collider.gameObject.tag == "Floor")
                 {
                 selectedObject = raycastHit.collider.gameObject;
                 objectID = 2;
                 Debug.Log("Floor");
+                Debug.Log(selectedObject.transform.localScale);
                 return true;
                 }
                 else
