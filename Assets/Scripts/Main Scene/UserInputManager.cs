@@ -93,28 +93,41 @@ public class UserInputManager : MonoBehaviour
     //Wait till change size 
     IEnumerator WaitForResize()
     {
+        Debug.Log("New size: " +newSize);
+
         while (!Input.GetKeyDown(KeyCode.D))
         {
             yield return null;
         }
-
-        if (mousePositionScript.GetID() == 0)
-        {
-            newSize.x = 0.25f;
-            mousePositionScript.GetObject().transform.localScale = newSize;
-            mousePositionScript.GetObject().transform.position = new Vector3(mousePositionScript.GetObject().transform.position.x, newSize.y / 2, mousePositionScript.GetObject().transform.position.z);
+        if (newSize!=Vector3.zero) {
+            if (mousePositionScript.GetID() == 0)
+            {
+                float key = newSize.x;
+                newSize.x = 0.25f;
+                mousePositionScript.GetObject().transform.localScale = newSize;
+                mousePositionScript.GetObject().transform.position = new Vector3(mousePositionScript.GetObject().transform.position.x, newSize.y / 2, mousePositionScript.GetObject().transform.position.z);
+                newSize.x = key;
+            }
+            else if (mousePositionScript.GetID() == 1)
+            {
+                float key = newSize.z;
+                newSize.z = 0.25f;
+                mousePositionScript.GetObject().transform.localScale = newSize;
+                mousePositionScript.GetObject().transform.position = new Vector3(mousePositionScript.GetObject().transform.position.x, newSize.y / 2, mousePositionScript.GetObject().transform.position.z);
+                newSize.z = key;
+            }
+            else if (mousePositionScript.GetID() == 2)
+            {
+                float key = newSize.y;
+                newSize.y = 0.16f;
+                mousePositionScript.GetObject().transform.localScale = newSize;
+                mousePositionScript.GetObject().transform.position = new Vector3(mousePositionScript.GetObject().transform.position.x, 0.08f, mousePositionScript.GetObject().transform.position.z);
+                newSize.y = key;
+            }
         }
-        else if (mousePositionScript.GetID() == 1)
+        else 
         {
-            newSize.z = 0.25f;
-            mousePositionScript.GetObject().transform.localScale = newSize;
-            mousePositionScript.GetObject().transform.position = new Vector3(mousePositionScript.GetObject().transform.position.x, newSize.y / 2, mousePositionScript.GetObject().transform.position.z);
-        }
-        else if (mousePositionScript.GetID() == 2)
-        {
-            newSize.y = 0.16f;
-            mousePositionScript.GetObject().transform.localScale = newSize;
-            mousePositionScript.GetObject().transform.position = new Vector3(mousePositionScript.GetObject().transform.position.x, 0.08f, mousePositionScript.GetObject().transform.position.z);
+            Debug.Log("Enter size again");
         }
     }
 

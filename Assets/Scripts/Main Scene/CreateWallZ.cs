@@ -4,12 +4,14 @@ using UnityEngine;
 
 public class CreateWallZ : Prefabricate
 {
+    private MousePosition mousePositionScript;
 
     private void Start()
     {
         objectId = 1;
         SetDimensions();
         SetPosition();
+        mousePositionScript = GameObject.Find("User Input Manager").GetComponent<MousePosition>();
     }
 
     public override void SetDimensions()
@@ -20,6 +22,12 @@ public class CreateWallZ : Prefabricate
     public override void SetPosition()
     {
         gameObject.transform.position = new Vector3(transform.position.x, y/2, transform.position.z);
+    }
+
+    private void OnMouseDrag()
+    {
+        transform.position = mousePositionScript.mousePoition;
+        transform.position = new Vector3(transform.position.x, y / 2, transform.position.z);
     }
 
 }

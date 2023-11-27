@@ -4,12 +4,14 @@ using UnityEngine;
 
 public class CreateFloor : Prefabricate
 {
+    private MousePosition mousePositionScript;
 
     private void Start()
     {
         objectId = 2;
         SetDimensions();
         SetPosition();
+        mousePositionScript = GameObject.Find("User Input Manager").GetComponent<MousePosition>();
     }
 
 
@@ -20,7 +22,13 @@ public class CreateFloor : Prefabricate
 
     public override void SetPosition()
     {
-        gameObject.transform.position = new Vector3(transform.position.x, 0.08f, transform.position.z);
+        transform.position = new Vector3(transform.position.x, 0.08f, transform.position.z);
+    }
+
+    private void OnMouseDrag()
+    {
+        transform.position = mousePositionScript.mousePoition;
+        transform.position = new Vector3(transform.position.x, 0.08f, transform.position.z);
     }
 
 }

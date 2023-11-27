@@ -1,13 +1,8 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using TMPro;
-using static UnityEditor.ShaderData;
-using System.Globalization;
-using System;
-using Unity.VisualScripting;
-using UnityEngine.UIElements;
+using UnityEngine.Rendering;
+using System.Text;
 
 public class ReadInput : MonoBehaviour
 {
@@ -17,6 +12,7 @@ public class ReadInput : MonoBehaviour
     public TMP_InputField inputFieldZ;
 
     private UserInputManager userInputManagerScript;
+    private MousePosition mousePositionScript;
 
     private void Start()
     {
@@ -29,13 +25,18 @@ public class ReadInput : MonoBehaviour
         inputFieldZ.DeactivateInputField();
 
         userInputManagerScript = GameObject.Find("User Input Manager").GetComponent<UserInputManager> ();
+        mousePositionScript = GameObject.Find("User Input Manager").GetComponent<MousePosition>();
     }
 
     private void Update()
     {
         if (userInputManagerScript.wallWasClicked)
         {
-            Debug.Log("Wlacz input");
+            //Wpisz w input obecne wymiary sciany
+            inputFieldX.text = mousePositionScript.selectedObject.transform.localScale.x.ToString();
+            inputFieldY.text = mousePositionScript.selectedObject.transform.localScale.y.ToString();
+            inputFieldZ.text = mousePositionScript.selectedObject.transform.localScale.z.ToString();
+
             StartCoroutine(WaitForEnter());
         }
     }
@@ -51,17 +52,14 @@ public class ReadInput : MonoBehaviour
         {
             yield return null;
         }
+
         //przeslij wymiary 
-        Debug.Log("Text: " +inputFieldX.text);
-        float x = float.Parse(inputFieldX.text, NumberStyles.Any, new CultureInfo("en-US"));
 
-        // float y = float.Parse(inputFieldY.text);
-        // float z = float.Parse(inputFieldZ.text);
-        userInputManagerScript.newSize = new Vector3(5.0f,5.0f,5.0f);
-
-        inputFieldX.text = "Enter X dimension";
-        inputFieldY.text = "Enter Y dimension";
-        inputFieldZ.text = "Enter Z dimension";
+        float x = float.Parse(inputFieldX.text);
+        float y = float.Parse(inputFieldY.text);
+        float z = float.Parse(inputFieldZ.text);
+       
+        userInputManagerScript.newSize = new Vector3(x,y,z);
 
         inputFieldX.DeactivateInputField();
         inputFieldY.DeactivateInputField();
