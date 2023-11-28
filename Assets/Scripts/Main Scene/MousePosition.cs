@@ -31,6 +31,7 @@ public class MousePosition : MonoBehaviour
                 objectID = 0;
                 Debug.Log("Wall X");
                 Debug.Log(selectedObject.transform.localScale);
+                Debug.Log("Position: " +selectedObject.transform.position);
                 return true;
                 }
                 else if (raycastHit.collider.gameObject.tag == "WallZ")
@@ -77,6 +78,7 @@ public class MousePosition : MonoBehaviour
         {
             transform.position = raycastHit.point;
             mousePoition = transform.position;
+            mousePoition.y = 0.0f;
         }
     }
   

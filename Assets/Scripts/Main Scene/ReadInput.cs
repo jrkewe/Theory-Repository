@@ -30,7 +30,7 @@ public class ReadInput : MonoBehaviour
 
     private void Update()
     {
-        if (userInputManagerScript.wallWasClicked)
+        if (userInputManagerScript.wallWasClicked && mousePositionScript.selectedObject!=null)
         {
             //Wpisz w input obecne wymiary sciany
             inputFieldX.text = mousePositionScript.selectedObject.transform.localScale.x.ToString();

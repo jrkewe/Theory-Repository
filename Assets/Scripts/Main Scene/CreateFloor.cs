@@ -5,6 +5,7 @@ using UnityEngine;
 public class CreateFloor : Prefabricate
 {
     private MousePosition mousePositionScript;
+    private Vector3 offset;
 
     private void Start()
     {
@@ -25,10 +26,15 @@ public class CreateFloor : Prefabricate
         transform.position = new Vector3(transform.position.x, 0.08f, transform.position.z);
     }
 
+    private void OnMouseDown()
+    {
+        offset = transform.position - mousePositionScript.mousePoition;
+    }
+
     private void OnMouseDrag()
     {
-        transform.position = mousePositionScript.mousePoition;
-        transform.position = new Vector3(transform.position.x, 0.08f, transform.position.z);
+        transform.position = mousePositionScript.mousePoition + offset;
+        SetPosition();
     }
 
 }

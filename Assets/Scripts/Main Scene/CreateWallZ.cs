@@ -1,10 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 public class CreateWallZ : Prefabricate
 {
     private MousePosition mousePositionScript;
+    private Vector3 offset;
 
     private void Start()
     {
@@ -21,13 +23,18 @@ public class CreateWallZ : Prefabricate
 
     public override void SetPosition()
     {
-        gameObject.transform.position = new Vector3(transform.position.x, y/2, transform.position.z);
+        gameObject.transform.position = new Vector3(transform.position.x, gameObject.transform.localScale.y / 2, transform.position.z);
+    }
+
+    private void OnMouseDown()
+    {
+        offset = transform.position - mousePositionScript.mousePoition;
     }
 
     private void OnMouseDrag()
     {
-        transform.position = mousePositionScript.mousePoition;
-        transform.position = new Vector3(transform.position.x, y / 2, transform.position.z);
+        transform.position = mousePositionScript.mousePoition + offset;
+        SetPosition();
     }
 
 }
