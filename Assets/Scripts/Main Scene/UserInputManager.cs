@@ -93,7 +93,7 @@ public class UserInputManager : MonoBehaviour
     //Wait till change size 
     IEnumerator WaitForResize()
     {
-        Debug.Log("New size: " +newSize);
+        //Debug.Log("New size: " +newSize);
 
         while (!Input.GetKeyDown(KeyCode.D))
         {

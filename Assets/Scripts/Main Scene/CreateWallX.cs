@@ -36,47 +36,79 @@ public class CreateWallX : Prefabricate
 
     private void OnMouseDrag()
     {
-        //issue
+
+        float wallXHeight = gameObject.transform.localScale.y / 2;
+
+        //WallX draged anywhere
         if (!wallCollided)
         {
-            transform.position = mousePositionScript.mousePoition + offset;
-            SetPosition();
+            Debug.Log("WallX is outside floor");
+            gameObject.transform.position = new Vector3(mousePositionScript.mousePoition.x, wallXHeight, mousePositionScript.mousePoition.z + offset.z);
         }
+        //WallX collided with floor
         else if (floor!=null && wallCollided)
         {
             float floorSizeZ = floor.transform.localScale.z;
             float floorPositionZ = floor.transform.position.z;
-            if (transform.position.z > (floorPositionZ - (floorSizeZ / 2) + (transform.localScale.z / 2)) &&
-                transform.position.z < (floorPositionZ + (floorSizeZ / 2) - (transform.localScale.z / 2)))
+            float backFloorBound = floorPositionZ - (floorSizeZ / 2) + (transform.localScale.z / 2);
+            float frontFloorBound = floorPositionZ + (floorSizeZ / 2) - (transform.localScale.z / 2);
+            Debug.Log("Back: " +backFloorBound);
+            Debug.Log("Front: " +frontFloorBound);
+
+            //WallX hits back of floor edge
+            if (gameObject.transform.position.z < backFloorBound)
             {
-                if (transform.position.z >= (floorPositionZ - (floorSizeZ / 2) + (transform.localScale.z / 2)) &&
-                    transform.position.z <= (floorPositionZ + (floorSizeZ / 2) - (transform.localScale.z / 2)))
-                {
-                    transform.position = new Vector3(transform.position.x, y / 2, mousePositionScript.mousePoition.z + offset.z);
-                }
+                Debug.Log("WallX hits back of floor edge");
+                Debug.Log("Position: " + gameObject.transform.position);
+                gameObject.transform.position = new Vector3(transform.position.x, wallXHeight, backFloorBound);
             }
+
+            //WallX hits front of floor edge
+            else if (gameObject.transform.position.z > frontFloorBound) 
+            {
+                Debug.Log("WallX hits front of floor edge");
+                Debug.Log("Position: " + gameObject.transform.position);
+                gameObject.transform.position = new Vector3(transform.position.x, wallXHeight, frontFloorBound);
+            }
+
+            //WallX in the middle of floor edge
+            else if (gameObject.transform.position.z <= frontFloorBound && gameObject.transform.position.z >= backFloorBound)
+            {
+
+                mousePositionScript.mousePoition.z = Mathf.Clamp(mousePositionScript.mousePoition.z, backFloorBound, frontFloorBound);
+                Debug.Log("WallX in the middle of floor edge");
+                Debug.Log("Position: " +gameObject.transform.position);
+                gameObject.transform.position = new Vector3(transform.position.x, wallXHeight, mousePositionScript.mousePoition.z);
+            }
+            
         }
 
     }
 
     private void OnTriggerEnter(Collider other)
     {
+        //WallX collide with floor
         if (other.transform.CompareTag("Floor"))
         {
             wallCollided = true;
             floor = other.gameObject;
             float floorSizeX = floor.transform.localScale.x;
             float floorPositionX = floor.transform.position.x;
-            if (gameObject.transform.position.x < floor.transform.position.x)
+            float rightFloorBound = floorPositionX - floorSizeX / 2 + 0.125f;
+            float leftFloorBound = floorPositionX + floorSizeX / 2 - 0.125f;
+
+            //Collides from right side of floor
+            if (gameObject.transform.position.x < floorPositionX)
             {
-                mousePositionScript.mousePoition.x = floorPositionX - floorSizeX / 2 + 0.125f;
-                position = new Vector3(floorPositionX - (floorSizeX / 2) + 0.125f, y / 2, transform.position.z);
+                mousePositionScript.mousePoition.x = rightFloorBound;
+                position = new Vector3(rightFloorBound, y / 2, transform.position.z);
                 gameObject.transform.position = position;
             }
-            else if (gameObject.transform.position.x > other.transform.position.x)
+            //Collides from left side of floor
+            else if (gameObject.transform.position.x > leftFloorBound)
             {
-                mousePositionScript.mousePoition.x = floorPositionX + floorSizeX / 2 - 0.125f;
-                position = new Vector3(floorPositionX + (floorSizeX / 2) - 0.125f, y / 2, transform.position.z);
+                mousePositionScript.mousePoition.x = leftFloorBound;
+                position = new Vector3(leftFloorBound, y / 2, transform.position.z);
                 gameObject.transform.position = position;
             }
         }
