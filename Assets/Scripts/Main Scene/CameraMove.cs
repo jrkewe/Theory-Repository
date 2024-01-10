@@ -3,65 +3,74 @@
 using System.Collections.Generic;
 using System.Security.Cryptography;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class CameraMove : MonoBehaviour
 {
+    //Camera position change
     private float horizontalInput;
     private float verticalInput;
-    private float speed = 5.0f;
-    private Vector2 scrollInput;
-    private float mouseRotationX = 0.0f;
-    private float mouseRotationY = 0.0f;
+
+    //Zoom camera
+    private Camera ZoomCamera;
+    private float scrollSpeed = 10f;
 
     //Drag camera
-    private Vector3 Origin;
-    private Vector3 Difference;
-
-    private bool drag;
-
+    private Vector3 startPoint;
+    private Vector3 endPoint;
+    private Vector3 lengthOfDrag;
     private MousePosition mousePositionScript;
+
+    private float speed = 2.5f;
 
     private void Start()
     {
+        ZoomCamera = Camera.main;
         mousePositionScript = GameObject.Find("User Input Manager").GetComponent<MousePosition>();
     }
 
     void Update()
     {
-        Debug.Log("Mouse move");
-        if (Input.GetMouseButtonDown(0)) 
-        {
-            Difference = Camera.main.ScreenToWorldPoint(mousePositionScript.mousePoition) - Camera.main.transform.position;
-            if (drag == false)
-            {
-                drag = true;
-                Origin = Camera.main.ScreenToWorldPoint(mousePositionScript.mousePoition);
-            }
-            else 
-            {
-                drag = false;
-            }
-
-            if (drag) 
-            {
-            Camera.main.transform.position = Origin-Difference;
-            }
-        }
-
-        //    horizontalInput = Input.GetAxis("Horizontal");
-        //    verticalInput = Input.GetAxis("Vertical");
-        //    scrollInput = Input.mouseScrollDelta;
-
-        //    transform.Translate(Vector3.forward * speed * scrollInput.y * 0.1f);
-
-        //    //transform.Translate(Vector3.forward * speed * verticalInput);
-
-        //    //transform.Translate(Vector3.right * speed * horizontalInput);
-        //    // transform.Rotate(Vector3.up, speed * horizontalInput);
-        //    mouseRotationX += Input.GetAxis("Mouse X") * 15.0f * (-1);
-        //    mouseRotationY += Input.GetAxis("Mouse Y") * 15.0f;
-        //    transform.localEulerAngles = new Vector3 (mouseRotationX, mouseRotationY, 0);
-
+        //MovementForward();
+        DragCamera();
+        Zoom();
+        RotateCamera();
     }
 
+    void RotateCamera() 
+    {
+        if (Input.GetMouseButton(1)) 
+        {
+            transform.eulerAngles += new Vector3(-Input.GetAxis("Mouse Y"), -Input.GetAxis("Mouse X"), 0) * speed;
+        }
+    }
+
+    void Zoom() 
+    {
+        ZoomCamera.fieldOfView -= Input.GetAxis("Mouse ScrollWheel") * scrollSpeed;
+    }
+
+    void MovementForward()
+    {
+        horizontalInput = Input.GetAxis("Horizontal");
+        verticalInput = Input.GetAxis("Vertical");
+        gameObject.transform.Translate(Vector3.right * horizontalInput * speed);
+        gameObject.transform.Translate(Vector3.forward * verticalInput * speed);
+    }
+
+    void DragCamera()
+    {
+        if (Input.GetMouseButtonDown(0)) 
+        {
+            startPoint = mousePositionScript.mousePoition;
+        }
+        if (Input.GetMouseButton(0))
+        {
+            endPoint = mousePositionScript.mousePoition;
+            lengthOfDrag = endPoint - startPoint;
+
+            transform.Translate (new Vector3(-lengthOfDrag.x, -lengthOfDrag.y, -lengthOfDrag.z) * Time.deltaTime * speed, Space.World);
+        }
+
+    }
 }

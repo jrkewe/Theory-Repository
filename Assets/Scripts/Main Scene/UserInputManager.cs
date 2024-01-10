@@ -22,6 +22,7 @@ public class UserInputManager : MonoBehaviour
     public bool wallWasClicked= false;
     public Vector3 newSize;
 
+
     public void Start()
     {
         mousePositionScript = GetComponent<MousePosition>();
@@ -30,7 +31,7 @@ public class UserInputManager : MonoBehaviour
 
     private void Update()
     {
-        
+
         if (Input.GetMouseButtonDown(0)) 
         {
             wallWasClicked = false;
