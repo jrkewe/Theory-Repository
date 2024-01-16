@@ -1,9 +1,5 @@
-
-    using System.Collections;
-using System.Collections.Generic;
-using System.Security.Cryptography;
 using UnityEngine;
-using UnityEngine.UIElements;
+using UnityEngine.EventSystems;
 
 public class CameraMove : MonoBehaviour
 {
@@ -21,7 +17,7 @@ public class CameraMove : MonoBehaviour
     private Vector3 lengthOfDrag;
     private MousePosition mousePositionScript;
 
-    private float speed = 2.5f;
+    private float speed = 0.5f;
 
     private void Start()
     {
@@ -32,7 +28,11 @@ public class CameraMove : MonoBehaviour
     void Update()
     {
         //MovementForward();
-        DragCamera();
+         
+        if (!mousePositionScript.mouseDragsObject && !PointerIsOverUI())  
+        {
+            DragCamera();
+        }
         Zoom();
         RotateCamera();
     }
@@ -41,7 +41,7 @@ public class CameraMove : MonoBehaviour
     {
         if (Input.GetMouseButton(1)) 
         {
-            transform.eulerAngles += new Vector3(-Input.GetAxis("Mouse Y"), -Input.GetAxis("Mouse X"), 0) * speed;
+            transform.eulerAngles += new Vector3(-Input.GetAxis("Mouse Y"), Input.GetAxis("Mouse X"), 0) * speed;
         }
     }
 
@@ -62,15 +62,33 @@ public class CameraMove : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0)) 
         {
-            startPoint = mousePositionScript.mousePoition;
+            mousePositionScript.mouseIsDraged = true;
+            startPoint = mousePositionScript.mousePosition;
         }
         if (Input.GetMouseButton(0))
         {
-            endPoint = mousePositionScript.mousePoition;
+            endPoint = mousePositionScript.mousePosition;
             lengthOfDrag = endPoint - startPoint;
 
             transform.Translate (new Vector3(-lengthOfDrag.x, -lengthOfDrag.y, -lengthOfDrag.z) * Time.deltaTime * speed, Space.World);
         }
+        if (Input.GetMouseButtonUp(0)) 
+        {
+            mousePositionScript.mouseIsDraged = false;
+        }
 
     }
+
+    private bool PointerIsOverUI()
+    {
+        if (EventSystem.current.IsPointerOverGameObject())
+        {
+            return true;
+        }
+        else 
+        { 
+            return false;
+        }
+    }
+
 }

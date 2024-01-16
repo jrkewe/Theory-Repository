@@ -7,6 +7,8 @@ TagManager:
   - WallX
   - WallZ
   - Floor
+  - Terrain
+  - UI
   layers:
   - Default
   - TransparentFX
@@ -14,7 +16,7 @@ TagManager:
   - 
   - Water
   - UI
-  - 
+  - Ground
   - 
   - 
   - 
