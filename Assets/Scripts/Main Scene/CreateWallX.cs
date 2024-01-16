@@ -4,14 +4,20 @@ using UnityEngine;
 
 public class CreateWallX : Prefabricate
 {
+    //Debuger
+    public static ILogger debugWallX = new Logger(Debug.unityLogger.logHandler);
+
     private MousePosition mousePositionScript;
     private bool wallCollided = false;
     private Vector3 position;
     private Vector3 offset;
-    GameObject floor;
+    private GameObject floor;
 
     private void Start()
     {
+        //Debugger
+        debugWallX.logEnabled = false;
+
         objectId = 0;
         SetDimensions();
         SetPosition();
@@ -31,19 +37,19 @@ public class CreateWallX : Prefabricate
 
     private void OnMouseDown() 
     {
-        offset = transform.position - mousePositionScript.mousePoition;
+        offset = transform.position - mousePositionScript.mousePosition;
     }
 
     private void OnMouseDrag()
     {
-
+        mousePositionScript.mouseDragsObject = true;
         float wallXHeight = gameObject.transform.localScale.y / 2;
 
         //WallX draged anywhere
         if (!wallCollided)
         {
-            Debug.Log("WallX is outside floor");
-            gameObject.transform.position = new Vector3(mousePositionScript.mousePoition.x, wallXHeight, mousePositionScript.mousePoition.z + offset.z);
+            debugWallX.Log("WallX is outside floor");
+            gameObject.transform.position = new Vector3(mousePositionScript.mousePosition.x + offset.x, wallXHeight, mousePositionScript.mousePosition.z + offset.z);
         }
         //WallX collided with floor
         else if (floor!=null && wallCollided)
@@ -52,22 +58,22 @@ public class CreateWallX : Prefabricate
             float floorPositionZ = floor.transform.position.z;
             float backFloorBound = floorPositionZ - (floorSizeZ / 2) + (transform.localScale.z / 2);
             float frontFloorBound = floorPositionZ + (floorSizeZ / 2) - (transform.localScale.z / 2);
-            Debug.Log("Back: " +backFloorBound);
-            Debug.Log("Front: " +frontFloorBound);
+            debugWallX.Log("Back: " +backFloorBound);
+            debugWallX.Log("Front: " +frontFloorBound);
 
             //WallX hits back of floor edge
             if (gameObject.transform.position.z < backFloorBound)
             {
-                Debug.Log("WallX hits back of floor edge");
-                Debug.Log("Position: " + gameObject.transform.position);
+                debugWallX.Log("WallX hits back of floor edge");
+                debugWallX.Log("Position: " + gameObject.transform.position);
                 gameObject.transform.position = new Vector3(transform.position.x, wallXHeight, backFloorBound);
             }
 
             //WallX hits front of floor edge
             else if (gameObject.transform.position.z > frontFloorBound) 
             {
-                Debug.Log("WallX hits front of floor edge");
-                Debug.Log("Position: " + gameObject.transform.position);
+                debugWallX.Log("WallX hits front of floor edge");
+                debugWallX.Log("Position: " + gameObject.transform.position);
                 gameObject.transform.position = new Vector3(transform.position.x, wallXHeight, frontFloorBound);
             }
 
@@ -75,13 +81,19 @@ public class CreateWallX : Prefabricate
             else if (gameObject.transform.position.z <= frontFloorBound && gameObject.transform.position.z >= backFloorBound)
             {
 
-                mousePositionScript.mousePoition.z = Mathf.Clamp(mousePositionScript.mousePoition.z, backFloorBound, frontFloorBound);
-                Debug.Log("WallX in the middle of floor edge");
-                Debug.Log("Position: " +gameObject.transform.position);
-                gameObject.transform.position = new Vector3(transform.position.x, wallXHeight, mousePositionScript.mousePoition.z);
+                mousePositionScript.mousePosition.z = Mathf.Clamp(mousePositionScript.mousePosition.z, backFloorBound, frontFloorBound);
+                debugWallX.Log("WallX in the middle of floor edge");
+                debugWallX.Log("Position: " + gameObject.transform.position);
+                gameObject.transform.position = new Vector3(transform.position.x, wallXHeight, mousePositionScript.mousePosition.z);
             }
-            
+
         }
+
+    }
+
+    private void OnMouseUp()
+    {
+        mousePositionScript.mouseDragsObject = false;
 
     }
 
@@ -100,19 +112,25 @@ public class CreateWallX : Prefabricate
             //Collides from right side of floor
             if (gameObject.transform.position.x < floorPositionX)
             {
-                mousePositionScript.mousePoition.x = rightFloorBound;
-                position = new Vector3(rightFloorBound, y / 2, transform.position.z);
+                mousePositionScript.mousePosition.x = rightFloorBound;
+                position = new Vector3(rightFloorBound, gameObject.transform.localScale.y/2, transform.position.z);
                 gameObject.transform.position = position;
             }
             //Collides from left side of floor
             else if (gameObject.transform.position.x > leftFloorBound)
             {
-                mousePositionScript.mousePoition.x = leftFloorBound;
-                position = new Vector3(leftFloorBound, y / 2, transform.position.z);
+                mousePositionScript.mousePosition.x = leftFloorBound;
+                position = new Vector3(leftFloorBound, gameObject.transform.localScale.y / 2, transform.position.z);
                 gameObject.transform.position = position;
             }
         }
     }
+
+    private void OnTriggerExit(Collider other)
+    {
+        wallCollided = false;
+    }
+
 
 }
 

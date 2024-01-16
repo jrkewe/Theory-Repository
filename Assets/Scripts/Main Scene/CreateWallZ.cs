@@ -4,14 +4,20 @@ using UnityEngine;
 
 public class CreateWallZ : Prefabricate
 {
+    //Debuger
+    public static ILogger debugWallZ = new Logger(Debug.unityLogger.logHandler);
+
     private MousePosition mousePositionScript;
     private Vector3 offset;
     private bool wallCollided = false;
-    GameObject floor;
+    private GameObject floor;
     private Vector3 position;
 
     private void Start()
     {
+        //Debugger
+        debugWallZ.logEnabled = false;
+
         objectId = 1;
         SetDimensions();
         SetPosition();
@@ -31,18 +37,20 @@ public class CreateWallZ : Prefabricate
 
     private void OnMouseDown()
     {
-        offset = transform.position - mousePositionScript.mousePoition;
+        offset = transform.position - mousePositionScript.mousePosition;
     }
 
     private void OnMouseDrag()
     {
+
+        mousePositionScript.mouseDragsObject = true;
         float wallZHeight = gameObject.transform.localScale.y / 2;
 
         //WallZ draged anywhere
         if (!wallCollided)
         {
-            Debug.Log("WallZ is outside floor");
-            gameObject.transform.position = new Vector3(mousePositionScript.mousePoition.x + offset.x, wallZHeight, mousePositionScript.mousePoition.z);
+            debugWallZ.Log("WallZ is outside floor");
+            gameObject.transform.position = new Vector3(mousePositionScript.mousePosition.x + offset.x, wallZHeight, mousePositionScript.mousePosition.z + offset.z);
         }
         //WallZ collided with floor
         else if (floor != null && wallCollided)
@@ -51,22 +59,22 @@ public class CreateWallZ : Prefabricate
             float floorPositionX = floor.transform.position.x;
             float rightFloorBound = floorPositionX - (floorSizeX / 2) + (transform.localScale.x / 2);
             float leftFloorBound = floorPositionX + (floorSizeX / 2) - (transform.localScale.x / 2);
-            Debug.Log("Right: " + rightFloorBound);                                                                     
-            Debug.Log("Left: " + leftFloorBound);
+            debugWallZ.Log("Right: " + rightFloorBound);
+            debugWallZ.Log("Left: " + leftFloorBound);
 
             //WallZ hits right side of floor edge
             if (gameObject.transform.position.x < rightFloorBound)
             {
-                Debug.Log("WallZ hits right floor edge");
-                Debug.Log("Position: " + gameObject.transform.position);
+                debugWallZ.Log("WallZ hits right floor edge");
+                debugWallZ.Log("Position: " + gameObject.transform.position);
                 gameObject.transform.position = new Vector3(rightFloorBound, wallZHeight, transform.position.z);
             }
 
             //WallZ hits left side of floor edge
             else if (gameObject.transform.position.x > leftFloorBound)
             {
-                Debug.Log("WallZ hits left floor edge");
-                Debug.Log("Position: " + gameObject.transform.position);
+                debugWallZ.Log("WallZ hits left floor edge");
+                debugWallZ.Log("Position: " + gameObject.transform.position);
                 gameObject.transform.position = new Vector3(leftFloorBound, wallZHeight, transform.position.z);
             }
 
@@ -74,13 +82,19 @@ public class CreateWallZ : Prefabricate
             else if (gameObject.transform.position.x <= leftFloorBound && gameObject.transform.position.x >= rightFloorBound)
             {
 
-                mousePositionScript.mousePoition.x = Mathf.Clamp(mousePositionScript.mousePoition.x, rightFloorBound, leftFloorBound);
-                Debug.Log("WallZ in the middle of floor edge");
-                Debug.Log("Position: " + gameObject.transform.position);
-                gameObject.transform.position = new Vector3(mousePositionScript.mousePoition.x, wallZHeight, transform.position.z);
+                mousePositionScript.mousePosition.x = Mathf.Clamp(mousePositionScript.mousePosition.x, rightFloorBound, leftFloorBound);
+                debugWallZ.Log("WallZ in the middle of floor edge");
+                debugWallZ.Log("Position: " + gameObject.transform.position);
+                gameObject.transform.position = new Vector3(mousePositionScript.mousePosition.x, wallZHeight, transform.position.z);
             }
 
         }
+    }
+
+    private void OnMouseUp()
+    {
+        mousePositionScript.mouseDragsObject = false;
+
     }
 
     private void OnTriggerEnter(Collider other)
@@ -89,7 +103,7 @@ public class CreateWallZ : Prefabricate
         if (other.transform.CompareTag("Floor"))
         {
 
-            Debug.Log("Collide with floor");
+            debugWallZ.Log("Collide with floor");
             wallCollided = true;
             floor = other.gameObject;
             float floorSizeZ = floor.transform.localScale.z;
@@ -98,23 +112,28 @@ public class CreateWallZ : Prefabricate
             float frontFloorBound = floorPositionZ + floorSizeZ / 2 - 0.125f;
 
             //Collides with floor from behind
-            
+
             if (gameObject.transform.position.z < floorPositionZ)
             {
-                Debug.Log("Uderza z tylu");
-                mousePositionScript.mousePoition.z = backFloorBound;
-                position = new Vector3(transform.position.x, y / 2, backFloorBound);
+                debugWallZ.Log("Uderza z tylu");
+                mousePositionScript.mousePosition.z = backFloorBound;
+                position = new Vector3(transform.position.x, gameObject.transform.localScale.y / 2, backFloorBound);
                 gameObject.transform.position = position;
             }
             //Collides with floor from front
             else if (gameObject.transform.position.z > frontFloorBound)
             {
-                Debug.Log("Uderza z przodu");
-                mousePositionScript.mousePoition.z = frontFloorBound;
-                position = new Vector3(transform.position.x, y / 2, frontFloorBound);
+                debugWallZ.Log("Uderza z przodu");
+                mousePositionScript.mousePosition.z = frontFloorBound;
+                position = new Vector3(transform.position.x, gameObject.transform.localScale.y / 2, frontFloorBound);
                 gameObject.transform.position = position;
             }
         }
+    }
+
+    private void OnTriggerExit(Collider other) 
+    {
+        wallCollided = false;
     }
 
 }

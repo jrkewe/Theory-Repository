@@ -8,27 +8,24 @@ public class Buttons : MonoBehaviour
 {
     //Buttons
     private Button button;
-    private UserInputManager userInputManager;
 
-    //tells me with type of object it is
+    //Main script
+    private UserInputManager userInputManagerScript;
+
+    //tells me which type of object it is
     public int buttonNumber;
-    
-    private bool buttonIsClicked = false;
 
     // Start is called before the first frame update
     void Start()
     {
+        userInputManagerScript = GameObject.Find("User Input Manager").GetComponent<UserInputManager>();
         button = GetComponent<Button>();
-        userInputManager = GameObject.Find("User Input Manager").GetComponent<UserInputManager>();
         button.onClick.AddListener(LoadObject);
     }
-
-
-
+     
     public void LoadObject()
     {
-        buttonIsClicked = true;
-        userInputManager.ObjectWasChoosen(buttonIsClicked);
-        userInputManager.ButtonNumber(buttonNumber);
+        userInputManagerScript.canInstantiatePrefab = true;
+        userInputManagerScript.prefabIndex = buttonNumber;
     }
 }
